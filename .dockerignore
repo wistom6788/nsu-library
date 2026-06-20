@@ -1,0 +1,14 @@
+.git
+.claude
+__pycache__
+*.pyc
+bak/
+pages/
+imgs/
+reports/
+programs/
+reference/
+*.xlsx.bak
+~$*
+*.rar
+*.ipynb

@@ -1,0 +1,12 @@
+services:
+  dashboard:
+    build: .
+    container_name: nsu-library-dashboard
+    ports:
+      - "8000:8000"
+    environment:
+      - DASHBOARD_HOST=0.0.0.0
+      - DASHBOARD_PORT=8000
+    volumes:
+      - ./data:/app/data:ro    # 只读挂载数据目录，方便更新数据
+    restart: unless-stopped

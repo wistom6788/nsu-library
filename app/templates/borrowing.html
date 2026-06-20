@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}借阅分析 — NSU Library Dashboard{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>📖 借阅数据分析</h1>
+    <p>图书借还记录的多维度分析</p>
+</div>
+
+<!-- Tab navigation -->
+<div class="tab-nav">
+    <button class="tab-btn active" data-tab="borrow-overview">📈 借阅概览</button>
+    <button class="tab-btn" data-tab="borrow-rank">🏆 排行榜</button>
+    <button class="tab-btn" data-tab="borrow-book">📚 图书分析</button>
+    <button class="tab-btn" data-tab="borrow-duration">⏳ 时长分析</button>
+</div>
+
+<!-- Borrow Overview -->
+<div class="tab-content active" id="tab-borrow-overview">
+    <div class="chart-grid-2">
+        <div class="chart-card"><div id="chart-borrow-monthly" class="chart-container"></div></div>
+        <div class="chart-card"><div id="chart-borrow-hourly" class="chart-container"></div></div>
+    </div>
+</div>
+
+<!-- Rankings -->
+<div class="tab-content" id="tab-borrow-rank">
+    <div class="chart-grid-2">
+        <div class="chart-card"><div id="chart-borrow-college" class="chart-container"></div></div>
+        <div class="chart-card"><div id="chart-borrow-college-per-capita" class="chart-container"></div></div>
+    </div>
+    <div class="chart-grid-1">
+        <div class="chart-card"><div id="chart-borrow-major" class="chart-container-lg"></div></div>
+    </div>
+</div>
+
+<!-- Book Analysis -->
+<div class="tab-content" id="tab-borrow-book">
+    <div class="chart-grid-1">
+        <div class="chart-card"><div id="chart-borrow-classifications" class="chart-container"></div></div>
+    </div>
+    <div class="chart-grid-1">
+        <div class="chart-card"><div id="chart-borrow-top-books" class="chart-container-lg"></div></div>
+    </div>
+</div>
+
+<!-- Duration Analysis -->
+<div class="tab-content" id="tab-borrow-duration">
+    <div class="chart-grid-2">
+        <div class="chart-card"><div id="chart-borrow-duration" class="chart-container"></div></div>
+        <div class="chart-card"><div id="chart-borrow-college-duration" class="chart-container"></div></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/app.js"></script>
+<script>
+    initBorrowing();
+    initTabs();
+</script>
+{% endblock %}

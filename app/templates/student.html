@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}学生查询 — NSU Library Dashboard{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>👤 学生查询</h1>
+    <p>输入学号或姓名搜索学生，查看个人图书馆使用详情</p>
+</div>
+
+<!-- Search Box -->
+<div class="search-container">
+    <div class="search-box">
+        <input type="text" id="student-search" placeholder="输入学号或姓名搜索..." autocomplete="off">
+        <button id="search-btn" onclick="searchStudent()">🔍 搜索</button>
+    </div>
+    <div id="search-results" class="search-results"></div>
+</div>
+
+<!-- Student Detail (hidden until search) -->
+<div id="student-detail" class="student-detail" style="display:none;">
+    <!-- Student Info Card -->
+    <div class="student-info-card">
+        <div class="student-avatar">👤</div>
+        <div class="student-info-text">
+            <h2 id="stu-name">—</h2>
+            <p><strong>学号：</strong><span id="stu-id">—</span></p>
+            <p><strong>学院：</strong><span id="stu-college">—</span></p>
+            <p><strong>专业：</strong><span id="stu-major">—</span></p>
+            <p><strong>班级：</strong><span id="stu-class">—</span></p>
+        </div>
+    </div>
+
+    <!-- KPI Cards -->
+    <div class="kpi-grid" id="student-kpis"></div>
+
+    <!-- Student Charts -->
+    <div class="chart-grid-2">
+        <div class="chart-card"><div id="chart-stu-monthly-visits" class="chart-container"></div></div>
+        <div class="chart-card"><div id="chart-stu-hourly-visits" class="chart-container"></div></div>
+    </div>
+    <div class="chart-grid-2">
+        <div class="chart-card"><div id="chart-stu-weekday-visits" class="chart-container"></div></div>
+        <div class="chart-card"><div id="chart-stu-monthly-borrows" class="chart-container"></div></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/student.js"></script>
+<script>
+    document.getElementById('student-search').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') searchStudent();
+    });
+    // Debounced live search
+    let searchTimeout;
+    document.getElementById('student-search').addEventListener('input', function() {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            if (this.value.length >= 1) searchStudent();
+        }, 300);
+    });
+</script>
+{% endblock %}

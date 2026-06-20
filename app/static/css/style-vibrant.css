@@ -1,0 +1,549 @@
+/**
+ * style-vibrant.css — 明亮活泼主题
+ * NSU Library Dashboard 活力风格
+ * 通过 body[data-theme="vibrant"] 激活，与 style.css 共存可切换
+ */
+
+/* =========================================================================
+   全局变量定义
+   ========================================================================= */
+
+:root {
+  --vibrant-primary: #FF6B6B;
+  --vibrant-primary-light: #FFE5E5;
+  --vibrant-secondary: #4ECDC4;
+  --vibrant-secondary-light: #E0F7F5;
+  --vibrant-accent: #FFE66D;
+  --vibrant-accent-warm: #FFA07A;
+  --vibrant-purple: #A78BFA;
+  --vibrant-text: #2D3748;
+  --vibrant-text-muted: #718096;
+  --vibrant-bg: linear-gradient(135deg, #FFF5F7 0%, #F0FDFA 50%, #FEF9E7 100%);
+  --vibrant-card-bg: rgba(255, 255, 255, 0.85);
+  --vibrant-shadow: 0 8px 32px rgba(78, 205, 196, 0.12);
+  --vibrant-shadow-hover: 0 12px 40px rgba(255, 107, 107, 0.15);
+}
+
+/* =========================================================================
+   主题激活：body[data-theme="vibrant"]
+   ========================================================================= */
+
+body[data-theme="vibrant"] {
+  background: var(--vibrant-bg);
+  color: var(--vibrant-text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+  transition: background 0.6s ease, color 0.3s ease;
+}
+
+/* ---- 背景装饰层 ---- */
+body[data-theme="vibrant"]::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 220px;
+  right: 0;
+  bottom: 0;
+  background:
+    url("/static/images/hero-bg.jpg") center top / cover no-repeat fixed;
+  opacity: 0.06;
+  z-index: -1;
+  pointer-events: none;
+  animation: bgFadeIn 1.2s ease forwards;
+}
+
+@keyframes bgFadeIn {
+  from { opacity: 0; }
+  to { opacity: 0.06; }
+}
+
+/* =========================================================================
+   SIDEBAR — 图书馆外观背景 + 半透明玻璃效果
+   ========================================================================= */
+
+body[data-theme="vibrant"] .sidebar {
+  background:
+    url("/static/images/library-exterior.jpg") center bottom / cover no-repeat,
+    linear-gradient(180deg, rgba(255, 107, 107, 0.92) 0%, rgba(78, 205, 196, 0.88) 100%);
+  backdrop-filter: blur(0px);
+  box-shadow: 4px 0 24px rgba(255, 107, 107, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+/* 侧栏底部渐变遮罩，确保文字可读 */
+body[data-theme="vibrant"] .sidebar::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 200px;
+  background: linear-gradient(to top, rgba(0,0,0,0.35), transparent);
+  pointer-events: none;
+}
+
+body[data-theme="vibrant"] .sidebar-header {
+  border-bottom-color: rgba(255, 255, 255, 0.2);
+  padding: 28px 20px 16px;
+  position: relative;
+  z-index: 1;
+}
+
+body[data-theme="vibrant"] .sidebar-header h2 {
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+body[data-theme="vibrant"] .sidebar-subtitle {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 13px;
+  margin-top: 6px;
+  font-weight: 500;
+}
+
+/* 导航项 - 圆角胶囊风格 */
+body[data-theme="vibrant"] .nav-item {
+  color: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  margin: 2px 10px;
+  padding: 11px 16px;
+  border-left: none;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  z-index: 1;
+}
+
+body[data-theme="vibrant"] .nav-item:hover {
+  background: rgba(255, 255, 255, 0.22);
+  color: #fff;
+  transform: translateX(4px);
+  backdrop-filter: blur(4px);
+}
+
+body[data-theme="vibrant"] .nav-item.active {
+  background: rgba(255, 255, 255, 0.3);
+  color: #fff;
+  transform: translateX(4px);
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(6px);
+}
+
+body[data-theme="vibrant"] .nav-icon {
+  font-size: 17px;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.15));
+}
+
+body[data-theme="vibrant"] .sidebar-footer {
+  border-top-color: rgba(255, 255, 255, 0.18);
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 11.5px;
+  line-height: 1.8;
+  position: relative;
+  z-index: 1;
+}
+
+/* 主题切换按钮 */
+.theme-switcher {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 14px;
+  margin: 8px 10px 0;
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  font-size: 12.5px;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(4px);
+  transition: all 0.25s ease;
+  position: relative;
+  z-index: 1;
+  user-select: none;
+}
+
+.theme-switcher:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: scale(1.02);
+}
+
+.theme-switcher .switch-icon {
+  font-size: 15px;
+  display: inline-block;
+  transition: transform 0.4s ease;
+}
+
+.theme-switcher:hover .switch-icon {
+  transform: rotate(15deg) scale(1.15);
+}
+
+/* =========================================================================
+   MAIN CONTENT — 明亮通透
+   ========================================================================= */
+
+body[data-theme="vibrant"] .main-content {
+  /* 保持原有布局，无需额外修改 */
+}
+
+body[data-theme="vibrant"] .page-header h1 {
+  color: var(--vibrant-primary);
+  font-size: 26px;
+  font-weight: 800;
+  position: relative;
+  display: inline-block;
+}
+
+body[data-theme="vibrant"] .page-header h1::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--vibrant-primary), var(--vibrant-secondary));
+  border-radius: 2px;
+  animation: underlineGrow 0.6s ease forwards;
+}
+
+@keyframes underlineGrow {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+body[data-theme="vibrant"] .page-header p {
+  color: var(--vibrant-text-muted);
+  font-size: 14.5px;
+  margin-top: 8px;
+  font-weight: 500;
+}
+
+/* =========================================================================
+   KPI CARDS — 彩色图标 + 玻璃拟态卡片
+   ========================================================================= */
+
+body[data-theme="vibrant"] .kpi-card {
+  background: var(--vibrant-card-bg);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: var(--vibrant-shadow);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+body[data-theme="vibrant"] .kpi-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  border-radius: 16px 16px 0 0;
+}
+body[data-theme="vibrant"] .kpi-card:nth-child(1)::before { background: linear-gradient(90deg, #FF6B6B, #FFA07A); }
+body[data-theme="vibrant"] .kpi-card:nth-child(2)::before { background: linear-gradient(90deg, #4ECDC4, #95E1D3); }
+body[data-theme="vibrant"] .kpi-card:nth-child(3)::before { background: linear-gradient(90deg, #A78BFA, #C4B5FD); }
+
+body[data-theme="vibrant"] .kpi-card:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: var(--vibrant-shadow-hover);
+}
+
+body[data-theme="vibrant"] .kpi-icon {
+  background: linear-gradient(135deg, var(--vibrant-primary-light), #FFF0F0);
+  border-radius: 14px;
+  font-size: 34px;
+  width: 60px;
+  height: 60px;
+  transition: transform 0.3s ease;
+}
+body[data-theme="vibrant"] .kpi-card:nth-child(2) .kpi-icon {
+  background: linear-gradient(135deg, var(--vibrant-secondary-light), #D4F5F2);
+}
+body[data-theme="vibrant"] .kpi-card:nth-child(3) .kpi-icon {
+  background: linear-gradient(135deg, #F3E8FF, #EDE9FE);
+}
+
+body[data-theme="vibrant"] .kpi-card:hover .kpi-icon {
+  transform: scale(1.1) rotate(-5deg);
+}
+
+body[data-theme="vibrant"] .kpi-value {
+  font-size: 30px;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--vibrant-text), var(--vibrant-primary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+body[data-theme="vibrant"] .kpi-label {
+  color: var(--vibrant-text-muted);
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+/* =========================================================================
+   CHART CARDS — 毛玻璃效果
+   ========================================================================= */
+
+body[data-theme="vibrant"] .chart-card {
+  background: var(--vibrant-card-bg);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: var(--vibrant-shadow);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+body[data-theme="vibrant"] .chart-card:hover {
+  box-shadow: var(--vibrant-shadow-hover);
+  transform: translateY(-2px);
+}
+
+/* =========================================================================
+   TABS — 彩色胶囊标签
+   ========================================================================= */
+
+body[data-theme="vibrant"] .tab-nav {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 14px;
+  padding: 7px;
+  box-shadow: var(--vibrant-shadow);
+}
+
+body[data-theme="vibrant"] .tab-btn {
+  border-radius: 10px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--vibrant-text-muted);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body[data-theme="vibrant"] .tab-btn:hover {
+  background: var(--vibrant-primary-light);
+  color: var(--vibrant-primary);
+}
+
+body[data-theme="vibrant"] .tab-btn.active {
+  background: linear-gradient(135deg, var(--vibrant-primary), #ff8585);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+  transform: scale(1.02);
+}
+
+/* =========================================================================
+   SEARCH — 明亮输入框
+   ========================================================================= */
+
+body[data-theme="vibrant"] .search-box input {
+  border: 2px solid #E2E8F0;
+  border-radius: 12px;
+  font-size: 15px;
+  background: rgba(255, 255, 255, 0.9);
+  transition: all 0.25s ease;
+  padding: 14px 18px;
+}
+
+body[data-theme="vibrant"] .search-box input:focus {
+  border-color: var(--vibrant-secondary);
+  box-shadow: 0 0 0 4px rgba(78, 205, 196, 0.15);
+  background: #fff;
+}
+
+body[data-theme="vibrant"] .search-box button {
+  background: linear-gradient(135deg, var(--vibrant-primary), #ff8585);
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 14px 28px;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.25);
+}
+
+body[data-theme="vibrant"] .search-box button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.35);
+}
+
+body[data-theme="vibrant"] .search-list {
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: var(--vibrant-shadow);
+  overflow: hidden;
+}
+
+body[data-theme="vibrant"] .search-item {
+  transition: all 0.2s ease;
+}
+
+body[data-theme="vibrant"] .search-item:hover {
+  background: linear-gradient(90deg, var(--vibrant-primary-light), transparent);
+  transform: translateX(4px);
+}
+
+body[data-theme="vibrant"] .search-name {
+  color: var(--vibrant-primary);
+  font-weight: 700;
+}
+
+body[data-theme="vibrant"] .search-loading,
+body[data-theme="vibrant"] .search-empty {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  color: var(--vibrant-text-muted);
+}
+
+body[data-theme="vibrant"] .search-error {
+  background: #FFF5F5;
+  border-radius: 12px;
+  color: var(--vibrant-primary);
+  font-weight: 500;
+}
+
+/* =========================================================================
+   STUDENT DETAIL — 活泼信息卡
+   ========================================================================= */
+
+body[data-theme="vibrant"] .student-info-card {
+  background: var(--vibrant-card-bg);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 18px;
+  box-shadow: var(--vibrant-shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+body[data-theme="vibrant"] .student-info-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--vibrant-primary), var(--vibrant-secondary), var(--vibrant-accent));
+}
+
+body[data-theme="vibrant"] .student-avatar {
+  background: linear-gradient(135deg, var(--vibrant-primary-light), var(--vibrant-secondary-light));
+  border-radius: 50%;
+  font-size: 42px;
+  width: 82px;
+  height: 82px;
+  border: 3px solid #fff;
+  box-shadow: 0 4px 16px rgba(255, 107, 107, 0.2);
+}
+
+body[data-theme="vibrant"] .student-info-text h2 {
+  font-size: 23px;
+  color: var(--vibrant-text);
+  font-weight: 800;
+}
+
+body[data-theme="vibrant"] .student-info-text p {
+  color: var(--vibrant-text-muted);
+  line-height: 2;
+}
+
+body[data-theme="vibrant"] .student-info-text strong {
+  color: var(--vibrant-primary);
+  font-weight: 700;
+}
+
+/* =========================================================================
+   动画 & 微交互增强
+   ========================================================================= */
+
+/* 页面入场动画 */
+body[data-theme="vibrant"] .main-content > * {
+  animation: fadeSlideUp 0.5s ease both;
+}
+
+body[data-theme="vibrant"] .main-content > *:nth-child(1) { animation-delay: 0.05s; }
+body[data-theme="vibrant"] .main-content > *:nth-child(2) { animation-delay: 0.1s; }
+body[data-theme="vibrant"] .main-content > *:nth-child(3) { animation-delay: 0.15s; }
+body[data-theme="vibrant"] .main-content > *:nth-child(4) { animation-delay: 0.2s; }
+
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* KPI 数字跳动 */
+body[data-theme="vibrant"] .kpi-value {
+  transition: all 0.3s ease;
+}
+
+/* 图表容器过渡 */
+body[data-theme="vibrant"] .chart-container,
+body[data-theme="vibrant"] .chart-container-lg {
+  transition: opacity 0.3s ease;
+}
+
+/* =========================================================================
+   响应式适配
+   ========================================================================= */
+
+@media (max-width: 1024px) {
+  body[data-theme="vibrant"] .chart-grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  body[data-theme="vibrant"] .sidebar {
+    width: 64px;
+  }
+  body[data-theme="vibrant"] .sidebar-header h2,
+  body[data-theme="vibrant"] .sidebar-subtitle,
+  body[data-theme="vibrant"] .nav-text,
+  body[data-theme="vibrant"] .sidebar-footer,
+  body[data-theme="vibrant"] .theme-switcher span:not(.switch-icon) {
+    display: none;
+  }
+  body[data-theme="vibrant"] .nav-item {
+    justify-content: center;
+    padding: 14px 0;
+    margin: 2px 6px;
+  }
+  body[data-theme="vibrant"] .nav-icon {
+    margin-right: 0;
+  }
+  body[data-theme="vibrant"] .theme-switcher {
+    margin: 8px 6px 0;
+    padding: 10px;
+  }
+  body[data-theme="vibrant"] .main-content {
+    margin-left: 64px;
+    padding: 16px;
+  }
+  body[data-theme="vibrant"]::before {
+    left: 64px;
+  }
+  body[data-theme="vibrant"] .tab-nav {
+    flex-wrap: wrap;
+  }
+}

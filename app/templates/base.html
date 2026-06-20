@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}NSU Library Dashboard{% endblock %}</title>
+    <script src="https://assets.pyecharts.org/assets/echarts.min.js"></script>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/style-vibrant.css">
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>📚 NSU 图书馆</h2>
+            <p class="sidebar-subtitle">数据分析看板</p>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="/" class="nav-item {% if active_page == 'overview' %}active{% endif %}">
+                <span class="nav-icon">📊</span>
+                <span class="nav-text">总览</span>
+            </a>
+            <a href="/access" class="nav-item {% if active_page == 'access' %}active{% endif %}">
+                <span class="nav-icon">🚪</span>
+                <span class="nav-text">到馆分析</span>
+            </a>
+            <a href="/borrowing" class="nav-item {% if active_page == 'borrowing' %}active{% endif %}">
+                <span class="nav-icon">📖</span>
+                <span class="nav-text">借阅分析</span>
+            </a>
+            <a href="/student" class="nav-item {% if active_page == 'student' %}active{% endif %}">
+                <span class="nav-icon">👤</span>
+                <span class="nav-text">学生查询</span>
+            </a>
+        </nav>
+        <div class="theme-switcher" id="themeSwitcher" title="切换界面风格">
+            <span class="switch-icon">&#127912;</span>
+            <span>切换风格</span>
+        </div>
+        <div class="sidebar-footer">
+            <p>数据区间：2023.10 - 2024.06</p>
+            <p>成都东软学院</p>
+        </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <script src="/static/js/charts.js"></script>
+    <script>
+        // 主题切换逻辑
+        (function() {
+            const KEY = 'nsu_theme';
+            const switcher = document.getElementById('themeSwitcher');
+            if (!switcher) return;
+
+            function applyTheme(theme) {
+                if (theme === 'vibrant') {
+                    document.body.setAttribute('data-theme', 'vibrant');
+                    switcher.querySelector('.switch-icon').textContent = '\u{1F3A8}';
+                } else {
+                    document.body.removeAttribute('data-theme');
+                    switcher.querySelector('.switch-icon').textContent = '\u{1F3A6}';
+                }
+            }
+
+            // 读取本地存储的主题偏好
+            var saved = localStorage.getItem(KEY);
+            applyTheme(saved || 'default');
+
+            switcher.addEventListener('click', function() {
+                var current = document.body.getAttribute('data-theme');
+                var next = current === 'vibrant' ? 'default' : 'vibrant';
+                localStorage.setItem(KEY, next);
+                applyTheme(next);
+            });
+        })();
+    </script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

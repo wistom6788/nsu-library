@@ -1,0 +1,445 @@
+/**
+ * style.css — NSU Library Dashboard
+ * Clean, modern dashboard layout with sidebar navigation
+ */
+
+/* =========================================================================
+   RESET & BASE
+   ========================================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+                 "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    background: #f0f2f5;
+    color: #333;
+    display: flex;
+    min-height: 100vh;
+}
+
+/* =========================================================================
+   SIDEBAR
+   ========================================================================= */
+
+.sidebar {
+    width: 220px;
+    background: linear-gradient(180deg, #1a2a3a 0%, #0d1b2a 100%);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 100;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+}
+
+.sidebar-header {
+    padding: 24px 20px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-header h2 {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.sidebar-subtitle {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 4px;
+}
+
+.sidebar-nav {
+    flex: 1;
+    padding: 12px 0;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    border-left: 3px solid transparent;
+}
+
+.nav-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+}
+
+.nav-item.active {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    border-left-color: #4a90d9;
+}
+
+.nav-icon {
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+.sidebar-footer {
+    padding: 16px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.4);
+    line-height: 1.6;
+}
+
+/* =========================================================================
+   MAIN CONTENT
+   ========================================================================= */
+
+.main-content {
+    flex: 1;
+    margin-left: 220px;
+    padding: 24px 32px;
+    min-width: 0;
+}
+
+.page-header {
+    margin-bottom: 24px;
+}
+
+.page-header h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a2a3a;
+}
+
+.page-header p {
+    font-size: 14px;
+    color: #888;
+    margin-top: 4px;
+}
+
+/* =========================================================================
+   KPI CARDS
+   ========================================================================= */
+
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.kpi-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.kpi-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.kpi-icon {
+    font-size: 32px;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0f5ff;
+    border-radius: 12px;
+}
+
+.kpi-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a2a3a;
+    line-height: 1.2;
+}
+
+.kpi-label {
+    font-size: 13px;
+    color: #888;
+    margin-top: 2px;
+}
+
+/* =========================================================================
+   CHART CARDS & GRIDS
+   ========================================================================= */
+
+.chart-grid-1 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.chart-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.chart-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+}
+
+.chart-container {
+    width: 100%;
+    height: 400px;
+}
+
+.chart-container-lg {
+    width: 100%;
+    height: 500px;
+}
+
+/* =========================================================================
+   TABS
+   ========================================================================= */
+
+.tab-nav {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 20px;
+    background: #fff;
+    border-radius: 12px;
+    padding: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.tab-btn {
+    padding: 10px 20px;
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.tab-btn:hover {
+    background: #f0f5ff;
+    color: #1a3a5c;
+}
+
+.tab-btn.active {
+    background: #1a3a5c;
+    color: #fff;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* =========================================================================
+   SEARCH (Student page)
+   ========================================================================= */
+
+.search-container {
+    margin-bottom: 24px;
+}
+
+.search-box {
+    display: flex;
+    gap: 8px;
+    max-width: 600px;
+}
+
+.search-box input {
+    flex: 1;
+    padding: 12px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.search-box input:focus {
+    border-color: #4a90d9;
+}
+
+.search-box button {
+    padding: 12px 24px;
+    background: #1a3a5c;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.search-box button:hover {
+    background: #2a5a8c;
+}
+
+.search-results {
+    margin-top: 12px;
+    max-width: 600px;
+}
+
+.search-list {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+.search-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.search-item:last-child {
+    border-bottom: none;
+}
+
+.search-item:hover {
+    background: #f0f5ff;
+}
+
+.search-name {
+    font-weight: 600;
+    color: #1a2a3a;
+    min-width: 60px;
+}
+
+.search-id {
+    color: #888;
+    font-size: 13px;
+    font-family: monospace;
+}
+
+.search-college {
+    color: #666;
+    font-size: 13px;
+}
+
+.search-major {
+    color: #999;
+    font-size: 12px;
+}
+
+.search-loading, .search-empty, .search-error {
+    padding: 16px;
+    text-align: center;
+    color: #888;
+    background: #fff;
+    border-radius: 8px;
+}
+
+.search-error {
+    color: #c23531;
+}
+
+/* =========================================================================
+   STUDENT DETAIL
+   ========================================================================= */
+
+.student-detail {
+    margin-top: 8px;
+}
+
+.student-info-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    margin-bottom: 20px;
+}
+
+.student-avatar {
+    font-size: 48px;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0f5ff;
+    border-radius: 50%;
+}
+
+.student-info-text h2 {
+    font-size: 22px;
+    color: #1a2a3a;
+    margin-bottom: 8px;
+}
+
+.student-info-text p {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.8;
+}
+
+.student-info-text strong {
+    color: #333;
+}
+
+/* =========================================================================
+   RESPONSIVE
+   ========================================================================= */
+
+@media (max-width: 1024px) {
+    .chart-grid-2 {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 64px;
+    }
+    .sidebar-header h2, .sidebar-subtitle, .nav-text,
+    .sidebar-footer {
+        display: none;
+    }
+    .nav-item {
+        justify-content: center;
+        padding: 14px 0;
+    }
+    .nav-icon {
+        margin-right: 0;
+    }
+    .main-content {
+        margin-left: 64px;
+        padding: 16px;
+    }
+    .tab-nav {
+        flex-wrap: wrap;
+    }
+}

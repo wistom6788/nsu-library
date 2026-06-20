@@ -1,0 +1,75 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Environment & secrets
+.env
+.env.*
+*.pem
+*.key
+
+# Excel temp files (锁文件)
+~$*.xlsx
+~$*.xls
+~$*.csv
+
+# Data backups (副本文件)
+data/*-副本*
+data/*副本*
+
+# Cache (运行时生成，不提交)
+cache/*.json
+
+# Build output (静态站点构建产物)
+dist/
+
+# Reports / 历史页面（非运行时代码）
+pages/
+programs/
+imgs/
+reports/
+bak/
+reference/
+
+# Archive files
+*.tar.gz
+*.rar
+*.zip
+
+# Claude settings
+.claude/

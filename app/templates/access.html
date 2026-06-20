@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}到馆分析 — NSU Library Dashboard{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>🚪 到馆数据分析</h1>
+    <p>学生进馆记录的多维度分析</p>
+</div>
+
+<!-- Tab navigation -->
+<div class="tab-nav">
+    <button class="tab-btn active" data-tab="time">⏱️ 时间分析</button>
+    <button class="tab-btn" data-tab="college">🏫 学院分析</button>
+    <button class="tab-btn" data-tab="major">📚 专业/班级</button>
+    <button class="tab-btn" data-tab="student">👤 学生分析</button>
+</div>
+
+<!-- Time Analysis -->
+<div class="tab-content active" id="tab-time">
+    <div class="chart-grid-2">
+        <div class="chart-card"><div id="chart-monthly-visits" class="chart-container"></div></div>
+        <div class="chart-card"><div id="chart-daily-visits" class="chart-container"></div></div>
+    </div>
+    <div class="chart-grid-2">
+        <div class="chart-card"><div id="chart-weekday-visits" class="chart-container"></div></div>
+        <div class="chart-card"><div id="chart-hourly-visits" class="chart-container"></div></div>
+    </div>
+    <div class="chart-grid-2">
+        <div class="chart-card"><div id="chart-monthly-duration" class="chart-container"></div></div>
+        <div class="chart-card"><div id="chart-monthly-avg-duration" class="chart-container"></div></div>
+    </div>
+    <div class="chart-grid-2">
+        <div class="chart-card"><div id="chart-daily-duration" class="chart-container"></div></div>
+        <div class="chart-card"><div id="chart-daily-avg-duration" class="chart-container"></div></div>
+    </div>
+    <div class="chart-grid-2">
+        <div class="chart-card"><div id="chart-weekday-duration" class="chart-container"></div></div>
+        <div class="chart-card"><div id="chart-weekday-avg-duration" class="chart-container"></div></div>
+    </div>
+</div>
+
+<!-- College Analysis -->
+<div class="tab-content" id="tab-college">
+    <div class="chart-grid-2">
+        <div class="chart-card"><div id="chart-college-visits" class="chart-container"></div></div>
+        <div class="chart-card"><div id="chart-college-students" class="chart-container"></div></div>
+    </div>
+    <div class="chart-grid-2">
+        <div class="chart-card"><div id="chart-college-duration" class="chart-container"></div></div>
+        <div class="chart-card"><div id="chart-college-avg-duration" class="chart-container"></div></div>
+    </div>
+    <div class="chart-grid-1">
+        <div class="chart-card"><div id="chart-college-monthly-visits" class="chart-container"></div></div>
+    </div>
+    <div class="chart-grid-1">
+        <div class="chart-card"><div id="chart-college-monthly-duration" class="chart-container"></div></div>
+    </div>
+</div>
+
+<!-- Major & Class Analysis -->
+<div class="tab-content" id="tab-major">
+    <div class="chart-grid-1">
+        <div class="chart-card"><div id="chart-major-visits" class="chart-container-lg"></div></div>
+    </div>
+    <div class="chart-grid-1">
+        <div class="chart-card"><div id="chart-major-duration" class="chart-container-lg"></div></div>
+    </div>
+    <div class="chart-grid-1">
+        <div class="chart-card"><div id="chart-class-visits" class="chart-container-lg"></div></div>
+    </div>
+    <div class="chart-grid-1">
+        <div class="chart-card"><div id="chart-class-duration" class="chart-container-lg"></div></div>
+    </div>
+</div>
+
+<!-- Student Analysis -->
+<div class="tab-content" id="tab-student">
+    <div class="chart-grid-2">
+        <div class="chart-card"><div id="chart-student-top-visits" class="chart-container-lg"></div></div>
+        <div class="chart-card"><div id="chart-student-top-duration" class="chart-container-lg"></div></div>
+    </div>
+    <div class="chart-grid-2">
+        <div class="chart-card"><div id="chart-visit-boxplot" class="chart-container"></div></div>
+        <div class="chart-card"><div id="chart-duration-boxplot" class="chart-container"></div></div>
+    </div>
+    <div class="chart-grid-1">
+        <div class="chart-card"><div id="chart-scatter" class="chart-container-lg"></div></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/app.js"></script>
+<script>
+    initAccess();
+    initTabs();
+</script>
+{% endblock %}

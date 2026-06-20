@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}总览 — NSU Library Dashboard{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>📊 数据总览</h1>
+    <p>成都东软学院图书馆 2023年10月 — 2024年6月</p>
+</div>
+
+<!-- KPI Cards -->
+<div class="kpi-grid">
+    <div class="kpi-card">
+        <div class="kpi-icon">🚪</div>
+        <div class="kpi-content">
+            <div class="kpi-value" id="kpi-visits">—</div>
+            <div class="kpi-label">总到馆人次</div>
+        </div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-icon">📖</div>
+        <div class="kpi-content">
+            <div class="kpi-value" id="kpi-borrows">—</div>
+            <div class="kpi-label">总借书量</div>
+        </div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-icon">⏱️</div>
+        <div class="kpi-content">
+            <div class="kpi-value" id="kpi-duration">—</div>
+            <div class="kpi-label">平均在馆时长(h)</div>
+        </div>
+    </div>
+</div>
+
+<!-- Summary Charts -->
+<div class="chart-grid-2">
+    <div class="chart-card">
+        <div id="chart-monthly-visits" class="chart-container"></div>
+    </div>
+    <div class="chart-card">
+        <div id="chart-college-visits" class="chart-container"></div>
+    </div>
+</div>
+<div class="chart-grid-1">
+    <div class="chart-card">
+        <div id="chart-borrow-monthly" class="chart-container"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/app.js"></script>
+<script>
+    initOverview();
+</script>
+{% endblock %}
