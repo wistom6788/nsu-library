@@ -592,6 +592,35 @@ def create_app_static_js():
  * 从内嵌的 PAGE_DATA 全局变量中读取数据，无需后端 API。
  */
 
+// ── TAB SYSTEM ──────────────────────────────────────────
+
+function initTabs() {
+    document.querySelectorAll('.tab-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var tabId = this.getAttribute('data-tab');
+            // Update buttons
+            var nav = this.closest('.tab-nav');
+            nav.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+            this.classList.add('active');
+            // Update content
+            document.querySelectorAll('.tab-content').forEach(function(c) { c.classList.remove('active'); });
+            var content = document.getElementById('tab-' + tabId);
+            if (content) {
+                content.classList.add('active');
+                // Resize all charts in the newly visible tab
+                setTimeout(function() {
+                    content.querySelectorAll('[id^="chart-"]').forEach(function(dom) {
+                        var inst = echarts.getInstanceByDom(dom);
+                        if (inst) inst.resize();
+                    });
+                }, 50);
+            }
+        });
+    });
+}
+
+// ── DATA RESOLVER ────────────────────────────────────────
+
 function fetchJSON(url) {
     // 静态版本：从 PAGE_DATA 同步获取数据，忽略 URL 参数
     // 兼容原有调用方式，但不再发起网络请求
