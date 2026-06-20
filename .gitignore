@@ -55,6 +55,9 @@ data/*副本*
 # Cache (运行时生成，不提交)
 cache/*.json
 
+# Source / raw assets (not used by app, selected copies live in app/static/images/)
+backgroud/
+
 # Build output (静态站点构建产物)
 dist/
 
