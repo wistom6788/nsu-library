@@ -607,6 +607,19 @@ function initTabs() {
             var content = document.getElementById('tab-' + tabId);
             if (content) {
                 content.classList.add('active');
+                // 懒加载：切换到该 Tab 时才渲染图表
+                if (typeof _renderAccessTime === 'function') {
+                    if (tabId === 'time') _renderAccessTime();
+                    else if (tabId === 'college') _renderAccessCollege();
+                    else if (tabId === 'major') _renderAccessMajor();
+                    else if (tabId === 'student') _renderAccessStudent();
+                }
+                if (typeof _renderBorrowOverview === 'function') {
+                    if (tabId === 'borrow-overview') _renderBorrowOverview();
+                    else if (tabId === 'borrow-rank') _renderBorrowRank();
+                    else if (tabId === 'borrow-book') _renderBorrowBook();
+                    else if (tabId === 'borrow-duration') _renderBorrowDuration();
+                }
                 // Resize all charts in the newly visible tab
                 setTimeout(function() {
                     content.querySelectorAll('[id^="chart-"]').forEach(function(dom) {
@@ -706,71 +719,111 @@ async function initOverviewStatic() {
     if (c3) { registerChart(c3); renderBar(c3, charts.borrow_monthly); }
 }
 
-// ── ACCESS ───────────────────────────────────────────────
+// ── ACCESS（懒加载：仅渲染当前可见 Tab 的图表）─────────
+
+var _accessRendered = {};
 
 async function initAccessStatic() {
-    await loadAccessTime();
+    // 仅渲染第一个 Tab（时间分析）
+    _renderAccessTime();
 }
 
-async function loadAccessTime() {
+function _renderAccessTime() {
+    if (_accessRendered.time) return;
+    _accessRendered.time = true;
     const t = PAGE_DATA.time || {};
-    const makeChart = (id, data, renderFn) => {
-        const c = initChart(id);
-        if (c) { registerChart(c); renderFn(c, data); }
-    };
-
-    makeChart('chart-monthly-visits', t.monthly_visits, renderBar);
-    makeChart('chart-daily-visits', t.daily_visits, (c, d) => renderLine(c, d, { area: true }));
-    makeChart('chart-weekday-visits', t.weekday_visits, renderBar);
-    makeChart('chart-hourly-visits', t.hourly_visits, (c, d) => renderLine(c, d, { smooth: true }));
-    makeChart('chart-monthly-duration', t.monthly_duration, renderBar);
-    makeChart('chart-monthly-avg-duration', t.monthly_avg_duration, renderBar);
-    makeChart('chart-daily-duration', t.daily_duration, (c, d) => renderLine(c, d, { area: true }));
-    makeChart('chart-daily-avg-duration', t.daily_avg_duration, renderBar);
-    makeChart('chart-weekday-duration', t.weekday_duration, renderBar);
-    makeChart('chart-weekday-avg-duration', t.weekday_avg_duration, renderBar);
-
-    // 学院、专业、学生 tab 数据也一次性加载（已全部在 PAGE_DATA 中）
-    const col = PAGE_DATA.college || {};
-    makeChart('chart-college-visits', col.visits, renderBar);
-    makeChart('chart-college-students', col.students, renderBar);
-    makeChart('chart-college-duration', col.duration, renderHorizontalBar);
-    makeChart('chart-college-avg-duration', col.avg_duration, renderHorizontalBar);
-    makeChart('chart-college-monthly-visits', col.monthly_visits, renderMultiLine);
-    makeChart('chart-college-monthly-duration', col.monthly_duration, renderMultiLine);
-
-    const maj = PAGE_DATA.major || {};
-    makeChart('chart-major-visits', maj.major_visits, renderHorizontalBar);
-    makeChart('chart-major-duration', maj.major_duration, renderHorizontalBar);
-    makeChart('chart-class-visits', maj.class_visits, renderHorizontalBar);
-    makeChart('chart-class-duration', maj.class_duration, renderHorizontalBar);
-
-    const stu = PAGE_DATA.student || {};
-    makeChart('chart-student-top-visits', stu.top_visits, renderHorizontalBar);
-    makeChart('chart-student-top-duration', stu.top_duration, renderHorizontalBar);
-    makeChart('chart-visit-boxplot', stu.visit_boxplot, renderBoxplot);
-    makeChart('chart-duration-boxplot', stu.duration_boxplot, renderBoxplot);
-    makeChart('chart-scatter', stu.scatter, renderScatter);
+    const mc = function(id, data, fn) { var c = initChart(id); if(c) { registerChart(c); fn(c, data); } };
+    mc('chart-monthly-visits', t.monthly_visits, renderBar);
+    mc('chart-daily-visits', t.daily_visits, function(c,d){renderLine(c,d,{area:true});});
+    mc('chart-weekday-visits', t.weekday_visits, renderBar);
+    mc('chart-hourly-visits', t.hourly_visits, function(c,d){renderLine(c,d,{smooth:true});});
+    mc('chart-monthly-duration', t.monthly_duration, renderBar);
+    mc('chart-monthly-avg-duration', t.monthly_avg_duration, renderBar);
+    mc('chart-daily-duration', t.daily_duration, function(c,d){renderLine(c,d,{area:true});});
+    mc('chart-daily-avg-duration', t.daily_avg_duration, renderBar);
+    mc('chart-weekday-duration', t.weekday_duration, renderBar);
+    mc('chart-weekday-avg-duration', t.weekday_avg_duration, renderBar);
 }
 
-// ── BORROWING ───────────────────────────────────────────
+function _renderAccessCollege() {
+    if (_accessRendered.college) return;
+    _accessRendered.college = true;
+    const col = PAGE_DATA.college || {};
+    const mc = function(id, data, fn) { var c = initChart(id); if(c) { registerChart(c); fn(c, data); } };
+    mc('chart-college-visits', col.visits, renderBar);
+    mc('chart-college-students', col.students, renderBar);
+    mc('chart-college-duration', col.duration, renderHorizontalBar);
+    mc('chart-college-avg-duration', col.avg_duration, renderHorizontalBar);
+    mc('chart-college-monthly-visits', col.monthly_visits, renderMultiLine);
+    mc('chart-college-monthly-duration', col.monthly_duration, renderMultiLine);
+}
+
+function _renderAccessMajor() {
+    if (_accessRendered.major) return;
+    _accessRendered.major = true;
+    const maj = PAGE_DATA.major || {};
+    const mc = function(id, data, fn) { var c = initChart(id); if(c) { registerChart(c); fn(c, data); } };
+    mc('chart-major-visits', maj.major_visits, renderHorizontalBar);
+    mc('chart-major-duration', maj.major_duration, renderHorizontalBar);
+    mc('chart-class-visits', maj.class_visits, renderHorizontalBar);
+    mc('chart-class-duration', maj.class_duration, renderHorizontalBar);
+}
+
+function _renderAccessStudent() {
+    if (_accessRendered.student) return;
+    _accessRendered.student = true;
+    const stu = PAGE_DATA.student || {};
+    const mc = function(id, data, fn) { var c = initChart(id); if(c) { registerChart(c); fn(c, data); } };
+    mc('chart-student-top-visits', stu.top_visits, renderHorizontalBar);
+    mc('chart-student-top-duration', stu.top_duration, renderHorizontalBar);
+    mc('chart-visit-boxplot', stu.visit_boxplot, renderBoxplot);
+    mc('chart-duration-boxplot', stu.duration_boxplot, renderBoxplot);
+    mc('chart-scatter', stu.scatter, renderScatter);
+}
+
+// ── BORROWING（懒加载：仅渲染当前可见 Tab 的图表）──────
+
+var _borrowRendered = {};
 
 async function initBorrowingStatic() {
-    const d = PAGE_DATA || {};
-    const makeChart = (id, data, renderFn) => {
-        const c = initChart(id);
-        if (c) { registerChart(c); renderFn(c, data); }
-    };
+    _renderBorrowOverview();
+}
 
-    makeChart('chart-borrow-monthly', d.monthly, renderBar);
-    makeChart('chart-borrow-hourly', d.hourly, (c, v) => renderLine(c, v, { smooth: true }));
-    makeChart('chart-borrow-college', d.college, renderBar);
-    makeChart('chart-borrow-college-per-capita', d.per_capita, renderHorizontalBar);
-    makeChart('chart-borrow-major', d.major, renderHorizontalBar);
-    makeChart('chart-borrow-classifications', d.classifications, renderBar);
-    makeChart('chart-borrow-top-books', d.top_books, renderHorizontalBar);
-    makeChart('chart-borrow-duration', d.duration, renderBar);
-    makeChart('chart-borrow-college-duration', d.college_duration, renderHorizontalBar);
+function _renderBorrowOverview() {
+    if (_borrowRendered.overview) return;
+    _borrowRendered.overview = true;
+    const d = PAGE_DATA || {};
+    const mc = function(id, data, fn) { var c = initChart(id); if(c) { registerChart(c); fn(c, data); } };
+    mc('chart-borrow-monthly', d.monthly, renderBar);
+    mc('chart-borrow-hourly', d.hourly, function(c,v){renderLine(c,v,{smooth:true});});
+}
+
+function _renderBorrowRank() {
+    if (_borrowRendered.rank) return;
+    _borrowRendered.rank = true;
+    const d = PAGE_DATA || {};
+    const mc = function(id, data, fn) { var c = initChart(id); if(c) { registerChart(c); fn(c, data); } };
+    mc('chart-borrow-college', d.college, renderBar);
+    mc('chart-borrow-college-per-capita', d.per_capita, renderHorizontalBar);
+    mc('chart-borrow-major', d.major, renderHorizontalBar);
+}
+
+function _renderBorrowBook() {
+    if (_borrowRendered.book) return;
+    _borrowRendered.book = true;
+    const d = PAGE_DATA || {};
+    const mc = function(id, data, fn) { var c = initChart(id); if(c) { registerChart(c); fn(c, data); } };
+    mc('chart-borrow-classifications', d.classifications, renderBar);
+    mc('chart-borrow-top-books', d.top_books, renderHorizontalBar);
+}
+
+function _renderBorrowDuration() {
+    if (_borrowRendered.duration) return;
+    _borrowRendered.duration = true;
+    const d = PAGE_DATA || {};
+    const mc = function(id, data, fn) { var c = initChart(id); if(c) { registerChart(c); fn(c, data); } };
+    mc('chart-borrow-duration', d.duration, renderBar);
+    mc('chart-borrow-college-duration', d.college_duration, renderHorizontalBar);
 }
 
 // ── STUDENT (客户端搜索) ─────────────────────────────────
